@@ -1,0 +1,25 @@
+[Unit]
+Description=Monitoring daemon for test
+After=network.target
+Wants=network-online.target
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/Scripts/Test-Monitoring.sh
+Restart=on-failure
+RestartSec=10s
+PIDFile=/var/run/Test-Monitoring.pid
+StandardOutput=null
+StandardError=journal
+
+# Защита от сбоев
+ProtectSystem=full
+ReadWritePaths=/var/log/Monitoring.log /var/run/
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
